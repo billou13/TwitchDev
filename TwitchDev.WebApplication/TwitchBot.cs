@@ -1,4 +1,5 @@
 ﻿using TwitchLib.Client;
+using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
 namespace TwitchDev.WebApplication
@@ -25,6 +26,13 @@ namespace TwitchDev.WebApplication
             _client = new TwitchClient();
             _client.Initialize(credentials, _channel);
             _client.Connect();
+
+            _client.OnMessageReceived += OnMessageReceived; 
+        }
+
+        private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
+        {
+            var msg = e.ChatMessage;
         }
     }
 }
