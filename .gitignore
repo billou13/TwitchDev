@@ -36,5 +36,5 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 
-# Developer custom file
-appsettings.Development.json
+# Developer specific file
+TwitchDev.WebApplication/appsettings.Development.json
