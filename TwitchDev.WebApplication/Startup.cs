@@ -1,26 +1,36 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using Microsoft.Extensions.Logging;
 
 namespace TwitchDev.WebApplication
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IConfiguration _configuration;
+        private readonly ILogger<Startup> _logger;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        {
+            _configuration = configuration;
+            _logger = logger;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddHangfire(config =>
+            {
+                config.UseMemoryStorage();
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -29,7 +39,7 @@ namespace TwitchDev.WebApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IBackgroundJobClient backgroundJobs, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -58,6 +68,10 @@ namespace TwitchDev.WebApplication
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            backgroundJobs.Enqueue(() => Job());
+
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -70,6 +84,18 @@ namespace TwitchDev.WebApplication
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+
+        public void Job()
+        {
+            _logger.LogInformation("Start Job");
+
+            string username = _configuration.GetValue<string>("TwitchBot:Username");
+            string oauth = _configuration.GetValue<string>("TwitchBot:Oauth");
+            string channel = _configuration.GetValue<string>("TwitchBot:Channel");
+
+            var twitchBot = new TwitchBot(username, oauth, channel);
+            twitchBot.Run();
         }
     }
 }
