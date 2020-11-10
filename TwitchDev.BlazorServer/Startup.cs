@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using TwitchDev.BlazorServer.Data;
 using TwitchDev.TwitchBot;
 using TwitchDev.TwitchBot.Configuration;
+using TwitchDev.TwitchBot.Storage;
 
 namespace TwitchDev.BlazorServer
 {
@@ -28,6 +29,7 @@ namespace TwitchDev.BlazorServer
             services.Configure<TwitchBotConfiguration>(Configuration.GetSection("TwitchBot"));
 
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<TwitchBotStorage>();
 
             services.AddHostedService<TwitchBotService>();
         }
