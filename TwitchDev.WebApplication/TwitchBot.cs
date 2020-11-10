@@ -4,6 +4,7 @@ using TwitchLib.Client.Models;
 
 namespace TwitchDev.WebApplication
 {
+    /// <seealso cref="https://dev.twitch.tv/docs/irc"/>
     public class TwitchBot
     {
         private readonly string _username;
