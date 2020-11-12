@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchDev.BlazorServer", "TwitchDev.BlazorServer\TwitchDev.BlazorServer.csproj", "{328AC0AD-6C52-4FEE-A9AA-B4622C7367A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchDev.BlazorServer", "TwitchDev.BlazorServer\TwitchDev.BlazorServer.csproj", "{328AC0AD-6C52-4FEE-A9AA-B4622C7367A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchDev.TwitchBot", "TwitchDev.TwitchBot\TwitchDev.TwitchBot.csproj", "{823D8093-223A-41CE-B3EE-A5DEC252149B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchDev.TwitchBot", "TwitchDev.TwitchBot\TwitchDev.TwitchBot.csproj", "{823D8093-223A-41CE-B3EE-A5DEC252149B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchDev.DataStorage", "TwitchDev.DataStorage\TwitchDev.DataStorage.csproj", "{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{823D8093-223A-41CE-B3EE-A5DEC252149B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{823D8093-223A-41CE-B3EE-A5DEC252149B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{823D8093-223A-41CE-B3EE-A5DEC252149B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchDev.DataStorage.Interfaces;
+using TwitchDev.TwitchBot.Assemblers;
 using TwitchDev.TwitchBot.Configuration;
-using TwitchDev.TwitchBot.Storage;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -14,17 +14,19 @@ namespace TwitchDev.TwitchBot
 {
     public class TwitchBotService : BackgroundService
     {
+        public const string LastMessageStorageKey = "last-message";
+
         private readonly TwitchBotConfiguration _configuration;
         private readonly ILogger<TwitchBotService> _logger;
-        private readonly TwitchBotStorage _storage;
+        private readonly IRedisService _redisService;
 
         private TwitchClient _client = null;
 
-        public TwitchBotService(IOptions<TwitchBotConfiguration> options, ILogger<TwitchBotService> logger, TwitchBotStorage storage)
+        public TwitchBotService(IOptions<TwitchBotConfiguration> options, ILogger<TwitchBotService> logger, IRedisService redisService)
         {
             _configuration = options.Value;
             _logger = logger;
-            _storage = storage;
+            _redisService = redisService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -52,7 +54,7 @@ namespace TwitchDev.TwitchBot
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             _logger.LogDebug($"{e.ChatMessage.Username}: {e.ChatMessage.Message}");
-            _storage.LastChatMessage = e.ChatMessage;
+            _redisService.Set(LastMessageStorageKey, e.ChatMessage.ToModel());
         }
 
         public override void Dispose()

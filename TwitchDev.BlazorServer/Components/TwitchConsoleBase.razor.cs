@@ -2,14 +2,16 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Timers;
-using TwitchDev.TwitchBot.Storage;
+using TwitchDev.DataStorage.Interfaces;
+using TwitchDev.TwitchBot;
+using TwitchDev.TwitchBot.Models;
 
 namespace TwitchDev.BlazorServer.Components
 {
     public class TwitchConsoleBase : ComponentBase, IDisposable
     {
         [Inject] ILogger<TwitchConsoleBase> Logger { get; set; }
-        [Inject] TwitchBotStorage TwitchBotStorage { get; set; }
+        [Inject] IRedisService RedisService { get; set; }
 
         private Timer timer;
 
@@ -31,12 +33,13 @@ namespace TwitchDev.BlazorServer.Components
 
         private void OnElapsed(object sender, ElapsedEventArgs e)
         {
-            if (TwitchBotStorage.LastChatMessage == null)
+            var lastMessage = RedisService.Get<ChatMessageModel>(TwitchBotService.LastMessageStorageKey);
+            if (lastMessage == null)
             {
                 return;
             }
 
-            string message = $"{TwitchBotStorage.LastChatMessage.Username}: {TwitchBotStorage.LastChatMessage.Message}";
+            string message = $"{lastMessage.Username}: {lastMessage.Message}";
             if (LastMessage != message)
             {
                 Logger.LogDebug($"TwitchConsoleBase.OnElapsed - New message: {message}");
