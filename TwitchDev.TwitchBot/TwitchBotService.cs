@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Threading;
 using System.Threading.Tasks;
-using TwitchDev.DataStorage.Interfaces;
 using TwitchDev.TwitchBot.Assemblers;
 using TwitchDev.TwitchBot.Configuration;
+using TwitchDev.TwitchBot.Interfaces;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -14,19 +14,17 @@ namespace TwitchDev.TwitchBot
 {
     public class TwitchBotService : BackgroundService
     {
-        public const string LastMessageStorageKey = "last-message";
-
         private readonly TwitchBotConfiguration _configuration;
         private readonly ILogger<TwitchBotService> _logger;
-        private readonly IRedisService _redisService;
+        private readonly ITwitchService _service;
 
         private TwitchClient _client = null;
 
-        public TwitchBotService(IOptions<TwitchBotConfiguration> options, ILogger<TwitchBotService> logger, IRedisService redisService)
+        public TwitchBotService(IOptions<TwitchBotConfiguration> options, ILogger<TwitchBotService> logger, ITwitchService service)
         {
             _configuration = options.Value;
             _logger = logger;
-            _redisService = redisService;
+            _service = service;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -36,7 +34,7 @@ namespace TwitchDev.TwitchBot
             var credentials = new ConnectionCredentials(_configuration.Username, _configuration.Oauth);
 
             _client = new TwitchClient();
-            _client.Initialize(credentials, _configuration.Channel);
+            _client.Initialize(credentials, _service.GetChannel());
             _client.Connect();
 
             _client.OnMessageReceived += OnMessageReceived;
@@ -53,8 +51,8 @@ namespace TwitchDev.TwitchBot
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            _logger.LogDebug($"{e.ChatMessage.Username}: {e.ChatMessage.Message}");
-            _redisService.Set(LastMessageStorageKey, e.ChatMessage.ToModel());
+            _logger.LogDebug($"OnMessageReceived - {e.ChatMessage.Username}: {e.ChatMessage.Message}");
+            _service.InsertMessage(e.ChatMessage.ToModel());
         }
 
         public override void Dispose()

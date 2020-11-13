@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using System.Collections.Generic;
 using TwitchDev.DataStorage.Configuration;
 using TwitchDev.DataStorage.Interfaces;
 
@@ -46,6 +47,28 @@ namespace TwitchDev.DataStorage
             {
                 var database = redis.GetDatabase();
                 database.StringSet(key, JsonConvert.SerializeObject(value));
+            }
+        }
+
+        public void SortedSetAdd<T>(string key, double score, T value)
+        {
+            using (var redis = ConnectionMultiplexer.Connect(_configuration.ConnectionString))
+            {
+                var database = redis.GetDatabase();
+                database.SortedSetAdd(key, JsonConvert.SerializeObject(value), score);
+            }
+        }
+
+        public IEnumerable<T> SortedSetRangeByScore<T>(string key, double start, double stop)
+        {
+            using (var redis = ConnectionMultiplexer.Connect(_configuration.ConnectionString))
+            {
+                var database = redis.GetDatabase();
+                var values = database.SortedSetRangeByScore(key, start, stop);
+                foreach (var value in values)
+                {
+                    yield return JsonConvert.DeserializeObject<T>(value);
+                }
             }
         }
     }

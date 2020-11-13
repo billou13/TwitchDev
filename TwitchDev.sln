@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchDev.BlazorServer", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchDev.TwitchBot", "TwitchDev.TwitchBot\TwitchDev.TwitchBot.csproj", "{823D8093-223A-41CE-B3EE-A5DEC252149B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchDev.DataStorage", "TwitchDev.DataStorage\TwitchDev.DataStorage.csproj", "{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchDev.DataStorage", "TwitchDev.DataStorage\TwitchDev.DataStorage.csproj", "{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchDev.Core", "TwitchDev.Core\TwitchDev.Core.csproj", "{B346B671-5FE2-46F8-81A1-587F486A09EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76A37E81-19A0-49D1-BEF2-4B3FC2EAAD63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B346B671-5FE2-46F8-81A1-587F486A09EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B346B671-5FE2-46F8-81A1-587F486A09EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B346B671-5FE2-46F8-81A1-587F486A09EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B346B671-5FE2-46F8-81A1-587F486A09EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,4 +3,29 @@
 
 <h1>Twitch console</h1>
 
-<p>Last message: @LastMessage</p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Last message</h3>
+    </div>
+    <div class="panel-body">
+        @if (LastMessage != null)
+        {
+            @string.Concat(LastMessage.Username, ": ", LastMessage.Message)
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Today messages</h3>
+    </div>
+    <div class="panel-body">
+        @if (Messages != null)
+        {
+            foreach (var message in Messages)
+            {
+                <p>@string.Concat(message.Username, " at ", message.CreatedUtcDate.ToString("HH:mm:ss"), ": ", message.Message)</p>
+            }
+        }
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using TwitchDev.TwitchBot.Models;
+﻿using System;
+using TwitchDev.TwitchBot.Models;
 using TwitchLib.Client.Models;
 
 namespace TwitchDev.TwitchBot.Assemblers
@@ -9,6 +10,7 @@ namespace TwitchDev.TwitchBot.Assemblers
         {
             return new ChatMessageModel
             {
+                CreatedUtcDate = DateTime.UtcNow,
                 Username = e.Username,
                 Message = e.Message
             };

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TwitchDev.Core\TwitchDev.Core.csproj" />
     <ProjectReference Include="..\TwitchDev.DataStorage\TwitchDev.DataStorage.csproj" />
   </ItemGroup>
 

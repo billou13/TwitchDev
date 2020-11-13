@@ -9,6 +9,7 @@ using TwitchDev.DataStorage.Configuration;
 using TwitchDev.DataStorage.Interfaces;
 using TwitchDev.TwitchBot;
 using TwitchDev.TwitchBot.Configuration;
+using TwitchDev.TwitchBot.Interfaces;
 
 namespace TwitchDev.BlazorServer
 {
@@ -29,10 +30,12 @@ namespace TwitchDev.BlazorServer
             services.AddServerSideBlazor();
 
             services.Configure<RedisConfiguration>(Configuration.GetSection("Redis"));
+            services.Configure<TwitchConfiguration>(Configuration.GetSection("Twitch"));
             services.Configure<TwitchBotConfiguration>(Configuration.GetSection("TwitchBot"));
 
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IRedisService, RedisService>();
+            services.AddSingleton<ITwitchService, TwitchService>();
 
             services.AddHostedService<TwitchBotService>();
         }
